@@ -36,5 +36,5 @@
         android:id="@+id/time"
         android:layout_below="@id/num"
         />
-    
+
 </RelativeLayout>
