@@ -1,18 +1,21 @@
 package com.rahulfreeforyou.rk.calldemo;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.rahulfreeforyou.rk.calldemo.Service.CallDetectService;
+import com.rahulfreeforyou.rk.calldemo.Service.CheckPermission;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-//    public static String text;
-
     public static TextView name,num,time;
+    EditText etPhoneNumber;
+    Button btnCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +26,25 @@ public class MainActivity extends AppCompatActivity {
         num = findViewById(R.id.num);
         time = findViewById(R.id.time);
 
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_PHONE_STATE},1);
+        askPermission();
+        startService(new Intent(MainActivity.this, CallDetectService.class));
 
-        }
 
+    }
+
+    private void askPermission() {
+        CheckPermission checkPermission = new CheckPermission();
+        checkPermission.checkPermission(this);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }
